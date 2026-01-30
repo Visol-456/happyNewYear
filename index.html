@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>春节主题编程动画/小游戏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .game-title {
+            font-size: 1.8rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .game-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .game-canvas {
+            width: 100%;
+            height: 400px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #eee;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        .instructions {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #ffb300;
+        }
+        
+        .instructions h3 {
+            color: #ff8e53;
+            margin-bottom: 8px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+            padding: 20px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .games-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎉 春节主题编程动画/小游戏 🎉</h1>
+            <p class="subtitle">体验两个有趣的春节主题互动作品</p>
+        </header>
+        
+        <div class="games-container">
+            <!-- 游戏1：烟花模拟器 -->
+            <div class="game-card">
+                <h2 class="game-title">🎆 春节烟花模拟器</h2>
+                <p class="game-description">
+                    点击屏幕发射烟花，体验春节烟花的绚丽效果。不同颜色的烟花有不同的爆炸效果和声音。
+                </p>
+                <canvas id="fireworksCanvas" class="game-canvas"></canvas>
+                <div class="controls">
+                </div>
+                <div class="instructions">
+                    <h3>游戏说明：</h3>
+                    <ul>
+                        <li>点击按钮发射不同颜色的烟花</li>
+                        <li>也可以在画布上点击发射随机烟花</li>
+                        <li>烟花会自动爆炸并产生粒子效果</li>
+                        <li>不同颜色的烟花有不同的爆炸效果</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 游戏2：接红包游戏 -->
+            <div class="game-card">
+                <h2 class="game-title">🧧 接红包大作战</h2>
+                <p class="game-description">
+                    控制篮子接住从天上掉落的红包，避免接到鞭炮。看看你能接住多少个红包！
+                </p>
+                <canvas id="redPacketCanvas" class="game-canvas"></canvas>
+                <div class="controls">
+                    <button onclick="startGame()">开始游戏</button>
+                    <button onclick="pauseGame()">暂停游戏</button>
+                    <button onclick="resetGame()">重新开始</button>
+                    <div style="margin-left: auto; font-weight: bold; color: #ff6b6b;">
+                        得分: <span id="score">0</span> | 生命: <span id="lives">3</span>
+                    </div>
+                </div>
+                <div class="instructions">
+                    <h3>游戏说明：</h3>
+                    <ul>
+                        <li>使用鼠标左右移动控制篮子</li>
+                        <li>接住红包获得10分</li>
+                        <li>接到鞭炮失去1点生命</li>
+                        <li>生命值为0时游戏结束</li>
+                        <li>每接住10个红包获得额外生命</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>🎊 春节快乐！祝您新的一年万事如意，心想事成！ 🎊</p>
+            <p>© 2026 春节主题编程动画/小游戏</p>
+            
+            <!-- 添加春节主题图标 -->
+            <div style="margin-top: 20px; text-align: center;">
+                <a href="https://hscy.pte.sh.cn/">
+                    <img src="icon.png" alt="春节图标" style="width: 260px; height: 64px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); border: 2px solid #ffd700;">
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 背景音乐 -->
+    <audio id="backgroundMusic" loop>
+        <source src="backgroundmusic.mp3" type="audio/mpeg">
+        您的浏览器不支持音频元素。
+    </audio>
+    
+    <!-- 音乐控制按钮 - 更大更明显 -->
+    <div style="position: fixed; bottom: 30px; right: 30px; z-index: 1000;">
+        <button onclick="toggleMusic()" id="musicControlButton" style="background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%); color: white; border: none; border-radius: 50%; width: 70px; height: 70px; font-size: 28px; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;">
+            ♫
+        </button>
+        <div id="musicTooltip" style="position: absolute; bottom: 85px; right: 0; background: rgba(0, 0, 0, 0.8); color: white; padding: 10px 15px; border-radius: 8px; font-size: 14px; white-space: nowrap; display: none; pointer-events: none; text-align: center;">
+            点击播放/暂停音乐<br>（按 M 键切换）
+        </div>
+    </div>
+
+    <!-- 首次点击提示 -->
+    <div id="firstClickHint" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.85); color: white; padding: 25px; border-radius: 15px; text-align: center; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 3px solid #ffd700; max-width: 400px; display: none;">
+        <h3 style="color: #ffd700; margin-bottom: 15px;">🎵 春节背景音乐 🎵</h3>
+        <p style="margin-bottom: 20px; line-height: 1.6;">点击页面任意位置开始播放春节主题背景音乐</p>
+        <button onclick="startMusicAndCloseHint()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%); color: white; border: none; border-radius: 25px; padding: 12px 30px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;">
+            开始播放音乐
+        </button>
+        <p style="margin-top: 15px; font-size: 12px; opacity: 0.8;">音乐音量已调至舒适水平</p>
+    </div>
+
+    <script src="fireworks.js"></script>
+    <script src="redpacket.js"></script>
+    
+    <script>
+        // 背景音乐控制
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const firstClickHint = document.getElementById('firstClickHint');
+        let musicStarted = false;
+        
+        // 设置音量（避免太大声）
+        backgroundMusic.volume = 1.0;
+        
+        // 显示首次点击提示
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                if (!musicStarted) {
+                    firstClickHint.style.display = 'block';
+                }
+            }, 1000);
+        });
+        
+        // 开始音乐并关闭提示
+        function startMusicAndCloseHint() {
+            startBackgroundMusic();
+            firstClickHint.style.display = 'none';
+        }
+        
+        // 开始播放背景音乐
+        function startBackgroundMusic() {
+            if (musicStarted) return;
+            
+            backgroundMusic.play().then(() => {
+                musicStarted = true;
+                updateMusicButton(true);
+                console.log('背景音乐开始播放');
+            }).catch(error => {
+                console.log('音乐播放失败:', error);
+                // 如果自动播放失败，显示提示让用户手动点击
+                alert('请点击右下角的音乐按钮手动播放音乐');
+            });
+        }
+        
+        // 切换音乐播放/暂停
+        function toggleMusic() {
+            if (!musicStarted) {
+                // 第一次点击，开始播放音乐
+                startBackgroundMusic();
+                return;
+            }
+            
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                updateMusicButton(true);
+            } else {
+                backgroundMusic.pause();
+                updateMusicButton(false);
+            }
+        }
+        
+        // 更新音乐按钮状态
+        function updateMusicButton(isPlaying) {
+            const musicButton = document.getElementById('musicControlButton');
+            if (isPlaying) {
+                musicButton.innerHTML = '♫';
+                musicButton.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+                musicButton.title = '音乐播放中 - 点击暂停';
+            } else {
+                musicButton.innerHTML = '🔇';
+                musicButton.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%)';
+                musicButton.title = '音乐已暂停 - 点击播放';
+            }
+            
+            // 添加动画效果
+            musicButton.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                musicButton.style.transform = 'scale(1)';
+            }, 300);
+        }
+        
+        // 页面点击事件 - 点击任意位置开始播放音乐
+        document.addEventListener('click', function(event) {
+            // 排除音乐按钮本身的点击（由toggleMusic处理）
+            if (event.target.closest('#musicControlButton') || 
+                event.target.closest('#firstClickHint button')) {
+                return;
+            }
+            
+            if (!musicStarted) {
+                startBackgroundMusic();
+                firstClickHint.style.display = 'none';
+            }
+        });
+        
+        // 添加键盘快捷键控制音乐（M键切换）
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'm' || e.key === 'M') {
+                toggleMusic();
+                e.preventDefault();
+            }
+        });
+        
+        // 鼠标悬停显示工具提示
+        const musicButton = document.getElementById('musicControlButton');
+        const musicTooltip = document.getElementById('musicTooltip');
+        
+        musicButton.addEventListener('mouseenter', function() {
+            musicTooltip.style.display = 'block';
+        });
+        
+        musicButton.addEventListener('mouseleave', function() {
+            musicTooltip.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
